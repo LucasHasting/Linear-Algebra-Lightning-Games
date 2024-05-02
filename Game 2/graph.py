@@ -1,4 +1,26 @@
 import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+
+def show_graph(graph):
+    pos = nx.spring_layout(graph, k=0.3*1/np.sqrt(len(graph.nodes())), iterations=20)
+    plt.figure(3, figsize=(30, 30))
+    nx.draw(graph, pos=pos)
+    nx.draw_networkx_labels(graph, pos=pos)
+    plt.savefig("graph.png")
+
+def generate_graph_visual():
+    f = open("all_vector_nodes.txt", "r")
+    graph = nx.DiGraph()
+
+    for i in f:
+        vector_1 = i[:9]
+        vector_2 = i[10:19]
+        path = i[20]
+        graph.add_edge(vector_1, vector_2, weight=int(path))
+
+    show_graph(graph)
+    return
 
 def check_all_configurations_with_all():
     flag = True
@@ -119,17 +141,9 @@ def get_solution(configA):
     f.close()
     return order
 
-#check_all_configurations() file exists in folder, no need to run again
-#check_all_configurations_with_all() file exists in folder, no need to run again
+#check_all_configurations() #file exists in folder, no need to run again
+#check_all_configurations_with_all() #file exists in folder, no need to run again
 
 #test
 #print(get_solution("[1, 0, 2]"))
-
-
-
-
-
-
-
-
-
+generate_graph_visual()
