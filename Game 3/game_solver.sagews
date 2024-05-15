@@ -1,46 +1,87 @@
-︠b06aa0bf-468c-4068-8a73-dc7f81d06708s︠
+#use the get_solution function from graph.py
 from graph import get_solution
 
-layout = [[1, 2, 3],[4, 5, 6],[7, 8, 9]]
+#map for states
+states = {
+    "off": 0,
+    "red": 1,
+    "green": 2
+}
 
+#reverse map for the states
+reverse_states = {
+    0: "off",
+    1: "red",
+    2: "green"
+}
 
-for i in layout:
+#function used to get input from the user and validate it
+def get_input(box):
+    state = raw_input(f"Enter the value for box #{box}: ")
+
+    if state not in states.keys():
+        return get_input(box)
+    else:
+        return states[state]
+
+#function used to solve an initial configuration
+def solver(m):
+    #create the matrix in string format
+    mat = f"[[{m[0][0]}, {m[0][1]}, {m[0][2]}], [{m[1][0]}, {m[1][1]}, {m[1][2]}], [{m[2][0]}, {m[2][1]}, {m[2][2]}]]"
+
+    #display the initial matrix
+    for i in range (0, len(m)):
+        for j in range(0, len(m[0])):
+            print(f"{(i*3)+j}: {reverse_states[m[i][j]]}\t", end="")
+        print()
+    print()
+
+    #get the solution for the matrix
+    sol = get_solution(mat)
+
+    #create a result variable to store the result
+    result = "";
+
+    #remove a space from the set of the solution if it exists
+    st = set(sol)
+    st.discard(' ')
+
+    #loop for every unique item in the solution
+    for i in list(st):
+        #get the number of times a switch must be pressed and store it
+        x=[k for k in sol.split(" ") if k==i]
+        result += f"press switch #{i} {len(x)} time(s)\n"
+
+    #return the result
+    return result
+
+def main():
+    #get the layout of the matrix
+    layout = [[1, 2, 3],[4, 5, 6],[7, 8, 9]]
+
+    #display the layout
+    for i in layout:
         for j in i:
             print(f"{j}\t", end="")
         print()
 
-def get_input(box):
-    num = -1
+    #get input for all matrix indicies
+    num1 = get_input(1)
+    num2 = get_input(2)
+    num3 = get_input(3)
+    num4 = get_input(4)
+    num5 = get_input(5)
+    num6 = get_input(6)
+    num7 = get_input(7)
+    num8 = get_input(8)
+    num9 = get_input(9)
 
-    while(num < 0 or num > 2):
-        num = input(f"Enter the value for box #{box}: ")
-    return num
+    #create the matrix in list format
+    mat = [[num1, num2, num3], [num4, num5, num6], [num7, num8, num9]]
 
-num1 = get_input(1)
-num2 = get_input(2)
-num3 = get_input(3)
-num4 = get_input(4)
-num5 = get_input(5)
-num6 = get_input(6)
-num7 = get_input(7)
-num8 = get_input(8)
-num9 = get_input(9)
+    #get the solution and display it
+    result = solver(mat)
+    print(result)
 
-mat = f"[[{num1}, {num2}, {num3}], [{num4}, {num5}, {num6}], [{num7}, {num8}, {num9}]]"
-sol = get_solution(mat)
-
-for k in list(set(sol.split(" ")))[1:]:
-    ele=k
-    x=[i for i in sol.split(" ") if i==ele]
-    print(f"press box #{ele} {len(x)} times")
-
-︡aef7ce45-7ea0-4ad5-976a-9c45d5b8419c︡{"stdout":"1\t2\t3\t\n4\t5\t6\t\n7\t8\t9\t\n"}︡{"raw_input":{"prompt":"Enter the value for box #1: "}}︡{"delete_last":true}︡{"raw_input":{"prompt":"Enter the value for box #1: ","submitted":true,"value":"0"}}︡{"raw_input":{"prompt":"Enter the value for box #2: "}}︡{"delete_last":true}︡{"raw_input":{"prompt":"Enter the value for box #2: ","submitted":true,"value":"2"}}︡{"raw_input":{"prompt":"Enter the value for box #3: "}}︡{"delete_last":true}︡{"raw_input":{"prompt":"Enter the value for box #3: ","submitted":true,"value":"1"}}︡{"raw_input":{"prompt":"Enter the value for box #4: "}}︡{"delete_last":true}︡{"raw_input":{"prompt":"Enter the value for box #4: ","submitted":true,"value":"0"}}︡{"raw_input":{"prompt":"Enter the value for box #5: "}}︡{"delete_last":true}︡{"raw_input":{"prompt":"Enter the value for box #5: ","submitted":true,"value":"2"}}︡{"raw_input":{"prompt":"Enter the value for box #6: "}}︡{"delete_last":true}︡{"raw_input":{"prompt":"Enter the value for box #6: ","submitted":true,"value":"1"}}︡{"raw_input":{"prompt":"Enter the value for box #7: "}}︡{"delete_last":true}︡{"raw_input":{"prompt":"Enter the value for box #7: ","submitted":true,"value":"2"}}︡{"raw_input":{"prompt":"Enter the value for box #8: "}}︡{"delete_last":true}︡{"raw_input":{"prompt":"Enter the value for box #8: ","submitted":true,"value":"2"}}︡{"raw_input":{"prompt":"Enter the value for box #9: "}}︡{"delete_last":true}︡{"raw_input":{"prompt":"Enter the value for box #9: ","submitted":true,"value":"1"}}︡{"stdout":"press box #8 1 times\npress box #3 1 times\npress box #6 1 times\n"}︡{"done":true}
-
-
-
-
-
-
-
-
-
+#call the main function
+main()
